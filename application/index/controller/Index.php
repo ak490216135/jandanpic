@@ -52,44 +52,44 @@ class Index extends Controller
 	        	array_shift($imgs);
 	        	$af = [];
 	        	foreach ($imgs as $key2 => $value2) {
-	        		$ex = explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $value2);
-	        		$af[$key2] = $ex;
+	        		$ex 			= explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $value2);
+	        		$af[$key2] 		= $ex;
 	        		// 存储原图
 	        		$af[$key2]['large'] = $af[$key2][0];
-	        		$af[$key2]['ext'] = $this->getExt($af[$key2][0]);
+	        		$af[$key2]['ext'] 	= $this->getExt($af[$key2][0]);
 	        		unset($af[$key2][0]);
 	        		if(strpos($af[$key2][1], '" org_src="')){
 	        			// 如果是gif
-	        			$gif = explode('" org_src="', $af[$key2][1]);
+	        			$gif 				= explode('" org_src="', $af[$key2][1]);
 	        			// 存储展示图
-	        			$af[$key2]['mw'] = $gif[0];
-	        			$gif2 = explode('"', $gif[1]);
+	        			$af[$key2]['mw'] 	= $gif[0];
+	        			$gif2 				= explode('"', $gif[1]);
 	        			// 存储点击后图
 	        			$af[$key2]['thumb'] = $gif2[0];
 	        			unset($af[$key2][1]);
 	        		}else{
 	        			// 如果是普通图
-	        			$ppt = explode('"', $af[$key2][1]);
-	        			$af[$key2]['mw'] = $ppt[0];
+	        			$ppt 				= explode('"', $af[$key2][1]);
+	        			$af[$key2]['mw']	= $ppt[0];
 	        			unset($af[$key2][1]);
 	        		}
 	        	}
 	        	$res[$key]['imgs'] = $af;
         	} else {
         		// 单图处理
-	        	$af = explode('<a href="', $p);
+	        	$af 	= explode('<a href="', $p);
 	        	array_shift($af);
-	        	$af = explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $af[0]);
-	        	$imgs = [];
+	        	$af 				= explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $af[0]);
+	        	$imgs 				= [];
 	        	// 存储原图
-	        	$imgs[0]['large'] = $af[0];
-	        	$af[1] = explode('"', $af[1]);
-	        	$af[1] = $af[1][0];
+	        	$imgs[0]['large'] 	= $af[0];
+	        	$af[1] 				= explode('"', $af[1]);
+	        	$af[1] 				= $af[1][0];
 	        	// 存储展示图
-	        	$imgs[0]['mw'] = $af[1];
-	        	$imgs[0]['ext'] = $this->getExt($af[0]);
+	        	$imgs[0]['mw'] 		= $af[1];
+	        	$imgs[0]['ext'] 	= $this->getExt($af[0]);
 
-	        	$res[$key]['imgs'] = $imgs;
+	        	$res[$key]['imgs'] 	= $imgs;
         	}
 
 
@@ -157,9 +157,13 @@ class Index extends Controller
 
 	// 获取扩展名
 	private function getExt($string){
-		
-		$a = explode('.', $string);
-		$b = array_pop($a);
+
+		$a = explode('.', $str);
+		if(count($a) > 1){
+			$b = array_pop($a);
+		}else{
+			$b = '';
+		}
 		return $b;
 
 	} 
