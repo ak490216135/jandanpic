@@ -107,7 +107,7 @@ class Index extends Controller
 	        // 煎蛋url地址
 	        $f2 = explode('<span class="righttext"><a href="', $value);
 	        $f2 = explode('">', $f2[1], 2);
-	        $res[$key]['jd_url'] = $f2[0];
+	        $res[$key]['jd_location'] = $f2[0];
 
 	        // 煎蛋评论号
 	        $f3 = explode('</a></span><p>', $f2[1]);
@@ -119,7 +119,7 @@ class Index extends Controller
 	        $res[$key]['jd_author'] = $f5[1];
 
 	        // 页码
-	        $res[$key]['jd_page'] = $this->explodeContent($res[$key]['jd_url'], '/pic/page-', '#comment');
+	        $res[$key]['jd_page'] = $this->explodeContent($res[$key]['jd_location'], '/pic/page-', '#comment');
 
 	        // 防伪码
 	        $f7 = explode('防伪码：', $value);
