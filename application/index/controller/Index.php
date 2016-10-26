@@ -45,19 +45,53 @@ class Index extends Controller
         	$num = substr_count($p, '[查看原图]');
         	$res[$key]['num'] = $num;
 
-        	$imgs = explode('<a href="', $p);
-        	array_shift($imgs);
+        	// 单图 还是多图
+        	if ($num > 1) {
+        		// 多图处理
+	        	$imgs = explode('<a href="', $p);
+	        	array_shift($imgs);
+	        	$af = [];
+	        	foreach ($imgs as $key2 => $value2) {
+	        		$ex = explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $value2);
+	        		$af[$key2] = $ex;
+	        		// 存储原图
+	        		$af[$key2]['large'] = $af[$key2][0];
+	        		$af[$key2]['ext'] = $this->getExt($af[$key2][0]);
+	        		unset($af[$key2][0]);
+	        		if(strpos($af[$key2][1], '" org_src="')){
+	        			// 如果是gif
+	        			$gif = explode('" org_src="', $af[$key2][1]);
+	        			// 存储展示图
+	        			$af[$key2]['mw'] = $gif[0];
+	        			$gif2 = explode('"', $gif[1]);
+	        			// 存储点击后图
+	        			$af[$key2]['thumb'] = $gif2[0];
+	        			unset($af[$key2][1]);
+	        		}else{
+	        			// 如果是普通图
+	        			$ppt = explode('"', $af[$key2][1]);
+	        			$af[$key2]['mw'] = $ppt[0];
+	        			unset($af[$key2][1]);
+	        		}
+	        	}
+	        	$res[$key]['imgs'] = $af;
+        	} else {
+        		// 单图处理
+	        	$af = explode('<a href="', $p);
+	        	array_shift($af);
+	        	$af = explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $af[0]);
+	        	$imgs = [];
+	        	// 存储原图
+	        	$imgs[0]['large'] = $af[0];
+	        	$af[1] = explode('"', $af[1]);
+	        	$af[1] = $af[1][0];
+	        	// 存储展示图
+	        	$imgs[0]['mw'] = $af[1];
+	        	$imgs[0]['ext'] = $this->getExt($af[0]);
 
-        	foreach ($imgs as $key2 => $value2) {
-        		$ex = explode('" target="_blank" class="view_img_link">[查看原图]</a><br /><img src="', $value2);
-        		$imgs[$key2] = $ex;
-        		array_shift($ex);
-	        	/*foreach ($ex as $key3 => $value3) {
-	        		$z = explode('" org_src="', $ex1);
-	        		$imgs[$key2][$key3][] = $z;
-	        	}*/
+	        	$res[$key]['imgs'] = $imgs;
         	}
-        	$res[$key]['imgs'] = $imgs;
+
 
 	        // 原图地址
 	        $e = explode('" target="_blank" class="view_img_link">', $value);
@@ -120,4 +154,13 @@ class Index extends Controller
 		return $content[0]; 
 
 	}
+
+	// 获取扩展名
+	private function getExt($string){
+		
+		$a = explode('.', $string);
+		$b = array_pop($a);
+		return $b;
+
+	} 
 }
