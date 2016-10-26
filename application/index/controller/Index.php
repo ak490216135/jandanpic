@@ -158,7 +158,7 @@ class Index extends Controller
 	// 获取扩展名
 	private function getExt($string){
 
-		$a = explode('.', $str);
+		$a = explode('.', $string);
 		if(count($a) > 1){
 			$b = array_pop($a);
 		}else{
