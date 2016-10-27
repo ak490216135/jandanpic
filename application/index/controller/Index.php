@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use \think\Controller;
 
+// 后台首页
 class Index extends Collection
 {	
 
