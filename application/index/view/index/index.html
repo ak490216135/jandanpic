@@ -23,7 +23,23 @@
 		          	</ul>
 		        </div>
 				<div id="right" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
-					234
+					<?php
+						foreach($ALL_INFO as $value){
+							$value['imgs'] = json_decode($value['imgs'], true);
+					?>
+							<div>
+								<h5>
+									{$value.jd_comment_num} | {$value.jd_author}
+								</h5>
+								<div>
+									<?php foreach($value['imgs'] as $value_img){ ?>
+										<img src="{$value_img.mw}" data-large="{$value_img.large}" data-mw="{$value_img.mw}" />
+									<?php } ?>
+								</div>
+							</div>
+					<?php
+						}
+					?>
 				</div>
 			</div>
 		</div>
