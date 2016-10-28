@@ -12,7 +12,26 @@
 			<div class="row">
 				{include file="public/left" /}
 				<div id="right" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
-					<h2>WELCOME!</h2>
+					<?php
+						foreach($ALL_INFO as $value){
+							$value['imgs'] = json_decode($value['imgs'], true);
+					?>
+							<div class="list">
+								<h4>
+									{$value.jd_comment_num} | {$value.jd_author} | oo[{$value.oo}] xx[{$value.xx}]
+								</h4>
+								<p>
+									{$value.jd_text}
+								</p>
+								<div class="imgs">
+									{volist name="value.imgs" id="value_img"}
+										<img src="{$value_img.mw}" data-large="{$value_img.large}" data-mw="{$value_img.mw}" /><br/>
+									{/volist}
+								</div>
+							</div>
+					<?php
+						}
+					?>
 				</div>
 			</div>
 		</div>

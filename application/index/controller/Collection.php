@@ -86,6 +86,15 @@ class Collection extends Controller
 	        	$res[$key]['imgs'] 	= $imgs;
         	}
 
+        	$oo = $this->explodeContent($value, 'cos_support-', '</span>]');
+        	$oo = explode('">', $oo);
+        	$oo = $oo[1];
+        	$xx = $this->explodeContent($value, 'cos_unsupport-', '</span>]');
+        	$xx = explode('">', $xx);
+        	$xx = $xx[1];
+        	$res[$key]['oo'] = $oo;
+        	$res[$key]['xx'] = $xx;
+
         	// 转为JSON字符串存储
         	$res[$key]['imgs'] = json_encode($res[$key]['imgs']);
         	//$res[$key]['imgs'] = json_decode($res[$key]['imgs'], true);
@@ -123,6 +132,12 @@ class Collection extends Controller
 
     }
 
+	// 获取评论信息 输入评论号返回内容
+	public function getCommentContent($comment_num){
+		$a = file_get_contents($url);
+		return 123;
+	}
+
     // 获取最新的页码
     public function getPageNum($url){
 
@@ -139,7 +154,7 @@ class Collection extends Controller
     }
 
     // 分割
-    public function explodeContent($string,$start,$end){ 
+    private function explodeContent($string,$start,$end){ 
 
 		$content=explode($start,$string); 
 		$content=explode($end,$content[1]); 
@@ -148,7 +163,7 @@ class Collection extends Controller
 	}
 
 	// 获取扩展名
-	public function getExt($string){
+	private function getExt($string){
 
 		$a = explode('.', $string);
 		if(count($a) > 1){
@@ -158,11 +173,5 @@ class Collection extends Controller
 		}
 		return $b;
 
-	}
-
-	// 获取评论信息 输入评论号返回内容
-	public function getCommentContent($comment_num){
-		$a = file_get_contents($url);
-		return 123;
 	}
 }
